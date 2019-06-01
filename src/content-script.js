@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 import className from './constants/class-name'
-import FlowController from './controllers/flow-controller'
+import FlowController from './controllers/flow-controller2'
 import message from './assets/message.svg'
 
 const controller = new FlowController()
@@ -200,6 +200,7 @@ browser.runtime.onMessage.addListener((message) => {
 })
 
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log('##### dom load')
   const needCSSInject = !parent.document.body.classList.contains(
     className.injected
   )
@@ -216,6 +217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 window.addEventListener('unload', () => {
+  console.log('##### dom unload')
   controller.clear()
   removeControlButton()
   removeInputControl()
