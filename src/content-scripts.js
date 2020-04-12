@@ -25,7 +25,7 @@ const flow = (node) => {
     return
   }
 
-  const message = node.querySelector('#message')
+  const message = node.querySelector('[jsslot] span div:nth-child(3)')
   if (!message) {
     return
   }
@@ -34,8 +34,8 @@ const flow = (node) => {
 
   const doc = (parent || window).document
 
-  const container = doc.querySelector('.html5-video-container')
-  const video = doc.querySelector('.video-stream.html5-main-video')
+  const container = doc.querySelector('[data-layout]')
+  const video = doc.querySelector('[data-layout]')
   const rows = state.rows
   const height = video.offsetHeight / rows
   const fontSize = height * 0.8
@@ -119,10 +119,12 @@ const flow = (node) => {
 const initialize = async () => {
   logger.log('initialize')
 
+  const items = document.querySelector('[jscontroller=ENYfP]')
+
   if (observer) {
     observer.disconnect()
   }
-  const items = document.querySelector('#items.yt-live-chat-item-list-renderer')
+
   observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       const nodes = Array.from(mutation.addedNodes)
@@ -148,9 +150,19 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       await loadState()
       break
   }
-});
+})
 
-(async () => {
-  await loadState()
-  initialize(location.href)
-})()
+const initialObserver = new MutationObserver(mutations => {
+  mutations.forEach(mutation => {
+    const nodes = Array.from(mutation.addedNodes)
+    if (nodes[0] != null && nodes[0]['id']) {
+      (async () => {
+        await loadState()
+        initialize(location.href)
+      })()
+    }
+  })
+})
+
+const config = { attributes: true, childList: true, characterData: true }
+initialObserver.observe(document.body, config)

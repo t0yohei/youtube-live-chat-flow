@@ -11,7 +11,7 @@
   "content_scripts": [
     {
       "run_at": "document_end",
-      "matches": ["https://www.youtube.com/live_chat*"],
+      "matches": ["https://meet.google.com/*"],
       "all_frames": true,
       "js": [
         "content-scripts.js"
