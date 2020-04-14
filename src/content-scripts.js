@@ -121,6 +121,10 @@ const initialize = async () => {
 
   const items = document.querySelector('[jscontroller=ENYfP]')
 
+  if (items === null) {
+    return
+  }
+
   if (observer) {
     observer.disconnect()
   }
