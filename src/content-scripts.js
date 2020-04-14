@@ -133,6 +133,7 @@ const initialize = async () => {
       }
       nodes.forEach((node) => {
         flow(node)
+        node.style.display = 'none'
       })
     })
   })
