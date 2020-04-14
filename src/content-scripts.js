@@ -154,8 +154,9 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
 const initialObserver = new MutationObserver(mutations => {
   mutations.forEach(mutation => {
-    const nodes = Array.from(mutation.addedNodes)
-    if (nodes[0] != null && nodes[0]['id']) {
+    const removedNodes = Array.from(mutation.removedNodes)
+    const nextSibling = mutation.nextSibling
+    if (removedNodes !== null && nextSibling !== null) {
       (async () => {
         await loadState()
         initialize(location.href)
