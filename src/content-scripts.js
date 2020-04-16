@@ -26,11 +26,13 @@ const flow = (node) => {
   }
 
   const message = node.querySelector('[jsslot] span div:nth-child(3)')
-  if (!message) {
+  const sender = node.querySelector('[jsslot] span div:nth-child(2)')
+  if (!message || !sender) {
     return
   }
 
-  const text = message.innerText
+  const messageText = message.innerText
+  const senderText = sender.innerText
 
   const doc = (parent || window).document
 
@@ -40,11 +42,14 @@ const flow = (node) => {
   const height = video.offsetHeight / rows
   const fontSize = height * 0.8
 
+  const senderSpan = doc.createElement('div')
   const div = doc.createElement('div')
-  div.innerHTML = text
+
+  div.innerHTML = messageText
   div.setAttribute('style', `
     position: absolute;
-    left: 0;
+    padding-top: ${fontSize / 2}px;
+    left: 5px;
     white-space: nowrap;
     display: inline-block;
     font-size: ${fontSize}px;
@@ -53,7 +58,16 @@ const flow = (node) => {
     text-shadow: ${state.textShadow};
   `)
 
+  senderSpan.innerHTML = senderText
+  senderSpan.setAttribute('style', `
+    font-size: ${fontSize / 2}px;
+    position: absolute;
+    color: silver;
+    top: 0;
+  `)
+
   container.appendChild(div)
+  div.appendChild(senderSpan)
 
   const width = container.offsetWidth
   const commentWidth = div.offsetWidth
