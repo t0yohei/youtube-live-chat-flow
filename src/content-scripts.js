@@ -133,6 +133,14 @@ const flow = (node) => {
 const initialize = async () => {
   logger.log('initialize')
 
+  const controll = document.querySelector('[jscontroller=aSjf3c]')
+  const div = document.createElement('div')
+
+  div.innerHTML = '<input type="text" name="message" size="40" maxlength="100" placeholder="参加者全員にメッセージを送信"> <button>送信</button>'
+  if (controll != null) {
+    controll.insertBefore(div, controll.lastElementChild)
+  }
+
   const items = document.querySelector('[jscontroller=ENYfP]')
 
   if (items === null) {
