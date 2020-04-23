@@ -130,21 +130,36 @@ const flow = (node) => {
   }
 }
 
+const sendMessage = () => {
+  const sendingMessage = document.getElementById('sendMessageContents').value
+
+  document.querySelector('[jscontroller=w8RNbf] [data-tab-id="2"]').click()
+  const inputAria = document.querySelector('[jscontroller=gZjhIf]')
+  document.querySelector('[jscontroller=LsUvSd]').style.visibility = 'hidden'
+  inputAria.value = sendingMessage
+  const sendButton = document.querySelector('[jsname=SoqoBf]')
+  sendButton.setAttribute('aria-disabled', 'false')
+  sendButton.click()
+  document.querySelector('[jscontroller=LsUvSd]').remove()
+}
+
 const initialize = async () => {
   logger.log('initialize')
-
-  const controll = document.querySelector('[jscontroller=aSjf3c]')
-  const div = document.createElement('div')
-
-  div.innerHTML = '<input type="text" name="message" size="40" maxlength="100" placeholder="参加者全員にメッセージを送信"> <button>送信</button>'
-  if (controll != null) {
-    controll.insertBefore(div, controll.lastElementChild)
-  }
 
   const items = document.querySelector('[jscontroller=ENYfP]')
 
   if (items === null) {
     return
+  }
+
+  const controll = document.querySelector('[jscontroller=aSjf3c]')
+  const div = document.createElement('div')
+
+  div.innerHTML =
+    '<input type="text" id="sendMessageContents" size="40" maxlength="100" placeholder="参加者全員にメッセージを送信"> <button id="sendMessageButton">送信</button>'
+  if (controll != null) {
+    controll.insertBefore(div, controll.lastElementChild)
+    document.getElementById('sendMessageButton').addEventListener('click', sendMessage)
   }
 
   if (observer) {
